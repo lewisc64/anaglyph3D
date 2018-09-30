@@ -14,14 +14,17 @@ camera = anaglyph3d.Camera(0, 0, 0, 0, 0)
 shapes = [
     anaglyph3d.Cube(-0.5, -0.5, 5, 1, 1, 1),
     anaglyph3d.Cube(-0.5, 5, -0.5, 1, 1, 1),
+    anaglyph3d.load_obj("sphere.obj")
 ]
+
+shapes[-1].scale(5)
 
 camera.capture()
 
 while True:
     
     for e in pygame.event.get():
-        if e.type == pygame.QUIT:
+        if e.type == pygame.QUIT or (e.type == pygame.KEYUP and e.key == pygame.K_ESCAPE):
             pygame.quit()
             quit()
         camera.handle_event(e)

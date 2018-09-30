@@ -12,6 +12,10 @@ class Shape:
     def get_lines(self):
         verts = self.get_vertices()
         return [[verts[i] for i in edge] for edge in self.get_edges()]
+    
+    def scale(self, factor):
+        for i, vert in enumerate(self.vertices):
+            self.vertices[i] = [x * factor for x in vert]
 
 class Cube(Shape):
     def __init__(self, x, y, z, width, depth, height):
