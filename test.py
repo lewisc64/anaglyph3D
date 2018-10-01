@@ -2,7 +2,7 @@ import pygame
 import anaglyph3d
 pygame.init()
 
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 800, 600
 FPS = 60
 
 channels = anaglyph3d.get_channels(WIDTH, HEIGHT)
@@ -33,7 +33,7 @@ while True:
     
     display.fill((0, 0, 0))
     for shape in shapes:
-        anaglyph3d.draw3d(channels, camera, shape)
+        anaglyph3d.draw_anaglyph(channels, camera, shape)
         
     anaglyph3d.apply_channels(display, channels)
     

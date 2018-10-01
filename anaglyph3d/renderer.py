@@ -1,19 +1,6 @@
 import math
 import pygame
 
-channel_colors = [(255, 0, 0), (0, 255, 255)]
-
-def get_channels(width, height):
-    return pygame.Surface((width, height)), pygame.Surface((width, height))
-
-def apply_channels(surface, channels):
-    apply = pygame.Surface(surface.get_size())
-    apply.blit(channels[0], (0, 0), special_flags=pygame.BLEND_ADD)
-    apply.blit(channels[1], (0, 0), special_flags=pygame.BLEND_ADD)
-    channels[0].fill((0, 0, 0))
-    channels[1].fill((0, 0, 0))
-    surface.blit(apply, (0, 0))
-
 def rotate(x, y, angle):
     mag = math.sqrt(x ** 2 + y ** 2)
     p_angle = math.atan2(y, x)
@@ -34,12 +21,12 @@ def transform_point(p, camera):
 def get_screen_point(p, surface):
     x, y, z = p
     f = 500 / z
-    side = max(surface.get_size())
+    width, height = surface.get_size()
     
     x *= f
     y *= f
     
-    return x + side // 2, y + side // 2
+    return x + width // 2, y + height // 2
     
 def get_screen_points(p, channels, intensity=10):
     x, y, z = p
@@ -62,7 +49,7 @@ def draw(surface, camera, color, shape):
         except TypeError:
             pass
 
-def draw3d(channels, camera, shape, intensity=5):
+def draw3d(channels, camera, colors, shape, intensity=5):
     lines = []
     for line in shape.get_lines():
         transformed = [transform_point(p, camera) for p in line]
@@ -71,7 +58,7 @@ def draw3d(channels, camera, shape, intensity=5):
         lines.append([get_screen_points(p, channels, intensity) for p in transformed])
     for line in lines:
         try:
-            pygame.draw.line(channels[0], channel_colors[0], line[0][0], line[1][0])
-            pygame.draw.line(channels[1], channel_colors[1], line[0][1], line[1][1])
+            pygame.draw.line(channels[0], colors[0], line[0][0], line[1][0])
+            pygame.draw.line(channels[1], colors[1], line[0][1], line[1][1])
         except TypeError:
             print(line[0], line[1])
